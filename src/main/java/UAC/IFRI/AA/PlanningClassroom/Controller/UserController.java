@@ -47,6 +47,17 @@ public class UserController
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @DeleteMapping("/api/user/{email}")
+    public ResponseEntity<?> deleteUser(@PathVariable String email)
+    {
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent())
+        {
+            userRepository.delete(user.get());
+            return ResponseEntity.ok(null);
+        }
+        throw new ResourceNotFoundException("User", "Email", "L'User n'est pas retrouver");
+    }
 
 
     @PreAuthorize("hasRole('SUPERENSEIGNANT')")
