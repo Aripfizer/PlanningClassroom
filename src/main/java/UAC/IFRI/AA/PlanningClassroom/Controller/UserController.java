@@ -48,6 +48,7 @@ public class UserController
     PasswordEncoder passwordEncoder;
 
     @DeleteMapping("/api/user/{email}")
+    @PreAuthorize("hasRole('SUPERENSEIGNANT')")
     public ResponseEntity<?> deleteUser(@PathVariable String email)
     {
         Optional<User> user = userRepository.findByEmail(email);
@@ -60,8 +61,9 @@ public class UserController
     }
 
 
-    @PreAuthorize("hasRole('SUPERENSEIGNANT')")
+
     @PutMapping("/api/upgrade/{username}")
+    @PreAuthorize("hasRole('SUPERENSEIGNANT')")
     public ResponseEntity<?> activeAccount(@PathVariable String username) throws MessagingException {
         Optional<Enseignant> user = enseignantRepository.findByUsername(username);
         if(user.isPresent())
