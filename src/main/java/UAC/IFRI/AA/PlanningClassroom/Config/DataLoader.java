@@ -23,10 +23,13 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        /*
 
         Role  role1 =  roleRepository.save(new Role(RoleName.ROLE_ETUDIANT));
         Role role2 = roleRepository.save(new Role(RoleName.ROLE_ENSEIGNANT));
         Role role3 = roleRepository.save(new Role(RoleName.ROLE_SUPERENSEIGNANT));
+
+         */
 
     }
 
