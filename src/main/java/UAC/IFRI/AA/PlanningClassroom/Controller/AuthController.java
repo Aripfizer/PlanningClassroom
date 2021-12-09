@@ -123,8 +123,8 @@ public class AuthController {
             Role userRole2 = roleRepository.findByName(RoleName.ROLE_ETUDIANT)
                     .orElseThrow(() -> new AppException("User Role: ENSEIGNANT not set."));
 
-            teacher.getRoles().add(userRole1);
             teacher.getRoles().add(userRole2);
+            teacher.getRoles().add(userRole1);
             user = enseignantRepository.save(teacher);
 
             String title ="DEMANDE DE CONFIRMATION D'IDENTITE";
