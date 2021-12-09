@@ -15,6 +15,8 @@ import UAC.IFRI.AA.PlanningClassroom.Repository.UserRepository;
 import UAC.IFRI.AA.PlanningClassroom.Security.JwtTokenProvider;
 import UAC.IFRI.AA.PlanningClassroom.Service.MailContent;
 import UAC.IFRI.AA.PlanningClassroom.Service.MailService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,7 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
-
+@Api( description="API pour l'authentification des Etudiants et Enseignants")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -57,7 +59,7 @@ public class AuthController {
     @Autowired
     MailService mailService;
 
-
+    @ApiOperation(value = "La connexion d'un Utilisateur")
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -73,7 +75,7 @@ public class AuthController {
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
-
+    @ApiOperation(value = "Inscription d'un Utilisateur")
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) throws MessagingException {
         if(userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -149,7 +151,7 @@ public class AuthController {
 
 
 
-
+    @ApiOperation(value = "Modifier l'email d'un Utilisateur")
     @PutMapping("email/{email}")
     public  ResponseEntity<?> updateEmail(@PathVariable String email, @Valid @RequestBody LoginRequest loginRequest) {
         Optional<Enseignant> user = enseignantRepository.findByUsernameOrEmailAndPassword(loginRequest.getUsernameOrEmail(), loginRequest.getUsernameOrEmail(), passwordEncoder.encode(loginRequest.getPassword()));

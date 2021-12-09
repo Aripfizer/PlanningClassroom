@@ -19,6 +19,8 @@ import UAC.IFRI.AA.PlanningClassroom.Security.CurrentUser;
 import UAC.IFRI.AA.PlanningClassroom.Security.UserPrincipal;
 import UAC.IFRI.AA.PlanningClassroom.Service.MailContent;
 import UAC.IFRI.AA.PlanningClassroom.Service.MailService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,8 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+
+@Api( description="API pour gérer les opérations CRUD sur les Utilisateurs.")
 @CrossOrigin("*")
 @RestController
 public class UserController
@@ -47,6 +51,7 @@ public class UserController
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @ApiOperation(value = "Supprime un uilisateur grâce a son email à condition que celui-ci soit en base de donnée!")
     @DeleteMapping("/api/user/{email}")
     @PreAuthorize("hasRole('SUPERENSEIGNANT')")
     public ResponseEntity<?> deleteUser(@PathVariable String email)
@@ -61,7 +66,7 @@ public class UserController
     }
 
 
-
+    @ApiOperation(value = "Active Le compte d'un uilisateur (Enseignant) grâce à son username à condition que celui-ci soit en base de donnée!")
     @PutMapping("/api/upgrade/{username}")
     @PreAuthorize("hasRole('SUPERENSEIGNANT')")
     public ResponseEntity<?> activeAccount(@PathVariable String username) throws MessagingException {
@@ -93,20 +98,21 @@ public class UserController
         throw new ResourceNotFoundException("User", "Enseignant", "L'Enseignant n'est pas retrouver");
     }
 
-
+    @ApiOperation(value = "Retourne la liste des Enseignants dont le compte est inactif")
     @GetMapping("/api/invalid/enseignants")
     @PreAuthorize("hasRole('SUPERENSEIGNANT')")
     public ResponseEntity<?> invalidEnseignants(){
         return ResponseEntity.ok(enseignantRepository.findAllByState(false));
     }
 
+    @ApiOperation(value = "Retourne le profil de l'utilisateur actuellement connecté")
     @GetMapping("/api/user/me")
     @PreAuthorize("hasRole('ETUDIANT')")
     public UserResponse getCurrentUser(@CurrentUser UserPrincipal currentUser) {
         UserResponse userSummary = new UserResponse(currentUser.getId(),currentUser.getUsername(), currentUser.getLastName(), currentUser.getFirstName(), currentUser.getEmail(),currentUser.getNumber());
         return userSummary;
     }
-
+    @ApiOperation(value = "Met a jour le profil d'un Utilisateur")
     @PutMapping("/api/user/me")
     @PreAuthorize("hasRole('ETUDIANT')")
     public UserResponse PutCurrentUser(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody SignUpRequest user)
@@ -133,7 +139,7 @@ public class UserController
         return  userResponse;
     }
 
-
+    @ApiOperation(value = "Ajouter un Enseignant en tant que SuperEnseignant")
     @PutMapping("/api/user/{email}")
     @PreAuthorize("hasRole('SUPERENSEIGNANT')")
     public ResponseEntity<?> AddRole(@CurrentUser UserPrincipal currentUser, @PathVariable String email)
@@ -168,6 +174,7 @@ public class UserController
             throw new ResourceNotFoundException("User", "email", email);
         }
     }
+    @ApiOperation(value = "Mise a jour du mot de passe")
     @PutMapping("/api/user/me/password")
     @PreAuthorize("hasRole('ETUDIANT')")
     public UserResponse PutCurrentUserPassword(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody PutPasswordField putPasswordField)
@@ -200,7 +207,7 @@ public class UserController
             throw new BadRequestException("Password Incorrect");
         }
     }
-
+    @ApiOperation(value = "Retourne le role le plus gradé de L'utilisateur actuellement connecté")
     @GetMapping("/api/user/me/role")
     @PreAuthorize("hasRole('ETUDIANT')")
     public ResponseEntity<Role> getCurrentUserRole(@CurrentUser UserPrincipal currentUser) {
