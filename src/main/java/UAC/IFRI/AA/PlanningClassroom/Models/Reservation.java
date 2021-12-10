@@ -26,6 +26,8 @@ public abstract class Reservation {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateEnd;
 
+    private boolean state = true;
+
     //ManyToOne User
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @OnDelete(action = OnDeleteAction.CASCADE)

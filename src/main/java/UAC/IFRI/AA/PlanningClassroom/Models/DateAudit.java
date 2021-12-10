@@ -1,5 +1,6 @@
 package UAC.IFRI.AA.PlanningClassroom.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -20,10 +21,12 @@ public abstract class DateAudit implements Serializable {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
+    @JsonIgnore
     private Instant createdAt;
 
     @LastModifiedDate
     @Column(nullable = false)
+    @JsonIgnore
     private Instant updatedAt;
 
     public Instant getCreatedAt() {

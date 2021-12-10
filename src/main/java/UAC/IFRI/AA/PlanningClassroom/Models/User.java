@@ -53,6 +53,7 @@ public abstract class User extends DateAudit {
 
     @NotBlank
     @Size(max = 100)
+    @JsonIgnore
     private String password;
 
     @NotBlank
