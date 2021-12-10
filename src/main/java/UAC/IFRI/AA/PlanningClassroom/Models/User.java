@@ -1,5 +1,6 @@
 package UAC.IFRI.AA.PlanningClassroom.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
                 "username"
@@ -67,6 +68,14 @@ public abstract class User extends DateAudit {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
+
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "user")
+    @JsonIgnore
+    private List<Reservation> reservations = new ArrayList<>();
+
 
     public User(String username, String lastName, String firstName, String sexe , String email, String password, String number) {
         this.lastName = lastName;

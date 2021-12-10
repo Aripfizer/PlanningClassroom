@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
@@ -12,9 +13,10 @@ import javax.persistence.OneToOne;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReservationSalle extends Reservation
+@Entity
+public class ReservationClassroom extends Reservation
 {
     @OneToOne(cascade= CascadeType.ALL)
     @JoinColumn(name="resSalId")
-    private Salle salle;
+    private Classroom classroom;
 }

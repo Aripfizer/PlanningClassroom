@@ -104,6 +104,12 @@ public class UserController
     public ResponseEntity<?> invalidEnseignants(){
         return ResponseEntity.ok(enseignantRepository.findAllByState(false));
     }
+    @ApiOperation(value = "Retourne la liste des Enseignants de la base de donnée")
+    @GetMapping("/api/enseignants")
+    @PreAuthorize("hasRole('SUPERENSEIGNANT')")
+    public ResponseEntity<?> AllEnseignants(){
+        return ResponseEntity.ok(enseignantRepository.findAll());
+    }
 
     @ApiOperation(value = "Retourne le profil de l'utilisateur actuellement connecté")
     @GetMapping("/api/user/me")

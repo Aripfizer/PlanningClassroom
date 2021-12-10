@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import java.util.Optional;
 
 @Entity
 @DiscriminatorValue("ENSEIGNANT")
@@ -21,6 +20,6 @@ public class Enseignant extends User
     public Enseignant(String username, String lastName, String firstName, String sexe, String email, String password, String number) {
         super(username, lastName, firstName, sexe, email, password, number);
         this.titulaire = true;
-        this.state = true;
+        this.setState(true);
     }
 }

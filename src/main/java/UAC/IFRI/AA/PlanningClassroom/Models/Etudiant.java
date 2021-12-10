@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+
 @Entity
 @DiscriminatorValue("ETUDIANT")
 @Data
