@@ -33,6 +33,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
 @Api( description="API pour l'authentification des Etudiants et Enseignants")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
